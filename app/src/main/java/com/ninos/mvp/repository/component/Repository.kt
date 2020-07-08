@@ -1,15 +1,15 @@
 package com.ninos.mvp.repository.component
 
 import com.ninos.mvp.R
+import com.ninos.mvp.common.NetConstants
 import com.ninos.mvp.repository.bean.ProcessData
 import com.ninos.mvp.repository.bean.SourceData
-import com.ninos.mvp.utils.Constants
 import com.ninos.mvp.utils.ResourcesUtils
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import org.json.JSONException
-import rx.Observable
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.io.EOFException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -20,7 +20,7 @@ import java.text.ParseException
  */
 inline fun <T : Any> Observable<SourceData<T>>.arashi(
     crossinline handle: (ProcessData<T>) -> Unit = {}
-): Subscription = compose {
+): Disposable = compose {
     it.flatMap { sourceData ->
         Observable.just(ProcessData(sourceData.code, sourceData.message, sourceData.content))
     }
@@ -31,7 +31,7 @@ inline fun <T : Any> Observable<SourceData<T>>.arashi(
         {
             handle(it) },
         {
-            handle(ProcessData(Constants.ERROR_CODE, handlerUnknownError(it).errorMessage, null)) }
+            handle(ProcessData(NetConstants.ERROR_CODE, handlerUnknownError(it).errorMessage, null)) }
     )
 
 /**
@@ -39,12 +39,12 @@ inline fun <T : Any> Observable<SourceData<T>>.arashi(
  */
 fun handleErrorCode(statusCode: String, message: String?): RepositoryException {
     return when (statusCode) {
-        Constants.PACT_CODE_MISSING -> RepositoryException(
-            Constants.ERROR_CODE_REMOTE,
+        NetConstants.PACT_CODE_MISSING -> RepositoryException(
+            NetConstants.ERROR_CODE_REMOTE,
             message ?: ResourcesUtils.getString(R.string.errorStr_cannotConnect)
         )
         else -> RepositoryException(
-            Constants.ERROR_CODE_UNKNOWN,
+            NetConstants.ERROR_CODE_UNKNOWN,
             message ?: ResourcesUtils.getString(R.string.errorStr_unknown)
         )
     }
@@ -57,27 +57,27 @@ fun handlerUnknownError(error: Throwable): RepositoryException {
     return when (error) {
         is RepositoryException -> error
         is EOFException -> RepositoryException(
-            Constants.ERROR_CODE_CONNECTINTERRUPT,
+            NetConstants.ERROR_CODE_CONNECTINTERRUPT,
             ResourcesUtils.getString(R.string.errorStr_connectInterruption)
         )
         is ConnectException -> RepositoryException(
-            Constants.ERROR_CODE_CANNOTCONNECT,
+            NetConstants.ERROR_CODE_CANNOTCONNECT,
             ResourcesUtils.getString(R.string.errorStr_cannotConnect)
         )
         is SocketTimeoutException -> RepositoryException(
-            Constants.ERROR_CODE_TIMEOUT,
+            NetConstants.ERROR_CODE_TIMEOUT,
             ResourcesUtils.getString(R.string.errorStr_timeOut)
         )
         is JSONException -> RepositoryException(
-            Constants.ERROR_CODE_PARSE,
+            NetConstants.ERROR_CODE_PARSE,
             ResourcesUtils.getString(R.string.errorStr_parse)
         )
         is ParseException -> RepositoryException(
-            Constants.ERROR_CODE_PARSE,
+            NetConstants.ERROR_CODE_PARSE,
             ResourcesUtils.getString(R.string.errorStr_parse)
         )
         else -> RepositoryException(
-            Constants.ERROR_CODE_UNKNOWN,
+            NetConstants.ERROR_CODE_UNKNOWN,
             ResourcesUtils.getString(R.string.errorStr_unknown)
         )
     }

@@ -14,10 +14,10 @@ import com.ninos.mvp.R
  */
 abstract class ToolBarFragment<P : BasePresenter<*>> : BaseFragment<P>() {
     private lateinit var toolBar: Toolbar
-    protected lateinit var imgBack: ImageView
-    protected lateinit var tvTitle: TextView
     private lateinit var appBar: AppBarLayout
-    protected lateinit var tvAction: TextView
+    private lateinit var toolBarBack: ImageView
+    private lateinit var toolBarTitle: TextView
+    private lateinit var toolBarAction: TextView
     private var mIsHidden = false
 
 
@@ -36,17 +36,19 @@ abstract class ToolBarFragment<P : BasePresenter<*>> : BaseFragment<P>() {
     private fun initToolBar(v: View) {
         toolBar = v.findViewById(R.id.toolbar) as Toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolBar)
-        imgBack = v.findViewById(R.id.img_back) as ImageView
-        tvTitle = v.findViewById(R.id.tv_title) as TextView
-        tvAction = v.findViewById(R.id.tv_action) as TextView
+        toolBarBack = v.findViewById(R.id.toolbar_back)
+        toolBarTitle = v.findViewById(R.id.toolbar_title)
+        toolBarAction = v.findViewById(R.id.toolbar_action)
         appBar = v.findViewById(R.id.app_bar_layout) as AppBarLayout
-        if (!canBack())
-            imgBack.visibility = View.GONE
-        if (canAction())
-            tvAction.setOnClickListener { action() }
+        if (canBack())
+            toolBarBack.setOnClickListener { (activity as AppCompatActivity).onBackPressed() }
         else
-            tvAction.visibility = View.GONE
-        tvTitle.text = provideTitle()
+            toolBarBack.visibility = View.GONE
+        if (canAction())
+            toolBarAction.setOnClickListener { action() }
+        else
+            toolBarAction.visibility = View.GONE
+        toolBarTitle.text = provideTitle()
     }
 
     /**

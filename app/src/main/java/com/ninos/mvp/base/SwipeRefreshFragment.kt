@@ -4,15 +4,15 @@ import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.ninos.mvp.R
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**
  * Created by ninos on 2019/1/8.
  */
-abstract class SwipeRefreshFragment<P : PaginationPresenter<*>, A : BaseAdapter<*, B, P>, B> : ToolBarFragment<P>(),
+abstract class SwipeRefreshFragment<P : PaginationPresenter<*>, A : BaseAdapter<*, B, P>, B> :
+    ToolBarFragment<P>(),
     BaseAdapter.OnItemClickListener<B>, LoadMoreView {
-
     lateinit var recyclerView: RecyclerView
     lateinit var refreshLayout: RefreshLayout
     lateinit var adapter: A
@@ -76,11 +76,9 @@ abstract class SwipeRefreshFragment<P : PaginationPresenter<*>, A : BaseAdapter<
      * 基本的绑定数据
      * @param data
      */
-    fun bindData(data: ArrayList<B>) {
-        if (page == 1) {
+    fun bindData(data: ArrayList<B>) =
+        if (page == 1)
             adapter.addDatas(data)
-        } else {
+        else
             adapter.addMore(data)
-        }
-    }
 }

@@ -7,7 +7,6 @@ import android.view.View
  * Created by ninos on 2019/1/8.
  */
 interface BaseView {
-    fun getContext(): Context
     fun showToast(text: String)
     fun showSnackbar(text: String, view: View)
     fun startActivity(c: Class<*>)
@@ -15,7 +14,14 @@ interface BaseView {
     fun showSoftInput(v: View)
     fun hideSoftMethod(v: View)
     fun showDialog(title: String, message: String, cancelable: Boolean)
-    fun showDialog(title: String, message: String, cancelable: Boolean, btn: String, handler: () -> Unit)
+    fun showDialog(
+        title: String,
+        message: String,
+        cancelable: Boolean,
+        btn: String,
+        handler: () -> Unit
+    )
+
     fun showDialog(
         title: String,
         message: String,

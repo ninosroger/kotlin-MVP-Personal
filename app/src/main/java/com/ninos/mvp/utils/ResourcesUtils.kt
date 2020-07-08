@@ -4,7 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
-import com.ninos.mvp.app.Application
+import com.ninos.mvp.Application
 
 object ResourcesUtils {
 

@@ -1,4 +1,4 @@
-package com.ninos.mvp.app
+package com.ninos.mvp
 
 import androidx.multidex.MultiDexApplication
 

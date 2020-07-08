@@ -1,8 +1,8 @@
 package com.ninos.mvp.repository.api
 
 import com.ninos.mvp.repository.bean.SourceData
+import io.reactivex.Observable
 import retrofit2.http.*
-import rx.Observable
 
 /**
  * Created by ninos on 2019/1/8.

@@ -14,12 +14,13 @@ import com.google.android.material.snackbar.Snackbar
  * Created by ninos on 2019/1/8.
  */
 abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseView {
-
+    private lateinit var context: Context
     lateinit var presenter: P
     private var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        context = this
         setContentView(provideLayoutId())
         presenter = createPresenter()
         presenter.attachView(this)
@@ -50,38 +51,29 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     /**
      * 显示Toast
      */
-    override fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
+    override fun showToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
-    override fun showSnackbar(text: String, view: View) {
+    override fun showSnackbar(text: String, view: View) =
         Snackbar.make(view, text, Snackbar.LENGTH_LONG).show()
-    }
 
     /**
      * 启动Actviity
      */
-    override fun startActivity(c: Class<*>) {
-        startActivity(Intent(getContext(), c))
-    }
+    override fun startActivity(c: Class<*>) = startActivity(Intent(context, c))
+
 
     /**
      * 启动Actviity
      */
-    override fun startActivityForResult(c: Class<*>, requestCode: Int) {
-        startActivityForResult(Intent(getContext(), c), requestCode)
-    }
-
-    /**
-     * 获取当前Context
-     */
-    override fun getContext(): Context = this
+    override fun startActivityForResult(c: Class<*>, requestCode: Int) =
+        startActivityForResult(Intent(context, c), requestCode)
 
     /**
      * 显示输入法界面
      */
     override fun showSoftInput(v: View) {
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED)
     }
 
@@ -89,8 +81,12 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
      * 隐藏输入法界面
      */
     override fun hideSoftMethod(v: View) {
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(v.windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            v.windowToken,
+            InputMethodManager.RESULT_UNCHANGED_SHOWN
+        )
     }
 
     /**
@@ -99,7 +95,7 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     override fun showDialog(title: String, message: String, cancelable: Boolean) {
         if (dialog != null && dialog!!.isShowing)
             dialog!!.dismiss()
-        val builder = AlertDialog.Builder(getContext())
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setCancelable(cancelable)
@@ -110,10 +106,16 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     /**
      * Dialog提示:带确定button
      */
-    override fun showDialog(title: String, message: String, cancelable: Boolean, btn: String, handler: () -> Unit) {
+    override fun showDialog(
+        title: String,
+        message: String,
+        cancelable: Boolean,
+        btn: String,
+        handler: () -> Unit
+    ) {
         if (dialog != null && dialog!!.isShowing)
             dialog!!.dismiss()
-        val builder = AlertDialog.Builder(getContext())
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setCancelable(cancelable)
@@ -136,7 +138,7 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     ) {
         if (dialog != null && dialog!!.isShowing)
             dialog!!.dismiss()
-        val builder = AlertDialog.Builder(getContext())
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setCancelable(cancelable)
@@ -149,9 +151,7 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     /**
      * 是否显示Dialog
      */
-    override fun isShowDialog(): Boolean {
-        return if (dialog == null) false else dialog!!.isShowing
-    }
+    override fun isShowDialog(): Boolean = if (dialog == null) false else dialog!!.isShowing
 
     /**
      * 关闭Dialog
@@ -161,7 +161,5 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
             dialog!!.dismiss()
     }
 
-    override fun finishActivity() {
-        finish()
-    }
+    override fun finishActivity() = onBackPressed()
 }

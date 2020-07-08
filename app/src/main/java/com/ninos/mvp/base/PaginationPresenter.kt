@@ -16,18 +16,14 @@ abstract class PaginationPresenter<V : LoadMoreView> : BasePresenter<V>() {
 
     /**
      * 设置数据状态
-     * @param page
+     * @param size
      * @param count
-     * @param data
      */
-    fun isHasMoreData(page: Int, count: Int, data: ProcessData<List<*>>) {
-        if (data.content!!.size < count) {
-            //没有更多了
+    fun hasMoreData(size: Int, count: Int) =
+        if (size < count)
+        //没有更多了
             view.noMore()
-        } else {
-            //还有更多
+        else
+        //还有更多
             view.hasMore()
-        }
-
-    }
 }

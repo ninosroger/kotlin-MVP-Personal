@@ -1,11 +1,10 @@
 package com.ninos.mvp.repository.okhttp
-
+import com.ninos.mvp.common.NetConstants
 import com.ninos.mvp.repository.api.ApiService
-import com.ninos.mvp.utils.Constants
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import okhttp3.OkHttpClient
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -19,7 +18,7 @@ class OkHttpService {
 
     private object Holder {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(NetConstants.BASE_URL)
             .client(
                 OkHttpClient()
                     .newBuilder()
@@ -29,7 +28,7 @@ class OkHttpService {
                     .build()
             )
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 }

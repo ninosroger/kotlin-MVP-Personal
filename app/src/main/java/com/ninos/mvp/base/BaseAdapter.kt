@@ -1,22 +1,22 @@
 package com.ninos.mvp.base
 
 import android.content.Context
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.ninos.mvp.utils.Constants
+import com.ninos.mvp.common.Constants
 
 /**
  * Created by ninos on 2019/1/8.
  */
 abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter<*>> : RecyclerView.Adapter<VH> {
-
     var mOnItemClickListener: OnItemClickListener<B>? = null   //点击事件
     var data: ArrayList<B> = ArrayList()                    //数据data
     var inflater: LayoutInflater
     var context: Context
-    var presenter: P? = null
+    lateinit var presenter: P
 
     private var header: View? = null
     private var footer: View? = null
@@ -154,47 +154,48 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter<*>
 
 
     /**
-     * 先清除后添加
-
-     * @param data
+     * 此处为adapter的增删改，setHasFixedSize设置为true时，调用此处增删改
+     * RecyclerView可以避免重新计算大小
      */
-    fun addDatas(data: ArrayList<B>) {
-        this.data.clear()
-        this.data.addAll(data)
-        this.notifyDataSetChanged()
-    }
-
-    fun addLastData(b: B) {
-        this.data.add(b)
-        this.notifyItemChanged(data.size - 1)
-    }
-
-    fun addFirstData(b: B) {
-        this.data.add(0, b)
-        this.notifyItemInserted(0)
-    }
-
-    fun removeFirstData() {
-        this.data.removeAt(0)
-        this.notifyItemRemoved(0)
-    }
-
-    fun removeLastData() {
-        this.data.removeAt(data.size - 1)
-        this.notifyItemChanged(data.size - 1)
+    open fun addDatas(datas: List<B>) {
+        data.clear()
+        data.addAll(datas)
         notifyDataSetChanged()
     }
 
-    /**
-     * 先清除后添加(动画)
-     * @param data
-     */
-    fun addDataAnim(data: ArrayList<B>) {
-        this.data.clear()
-        for (i in 0 until data.size) {
-            this.data.add(data[i])
-            this.notifyItemChanged(i)
-        }
+    open fun addLastData(item: B) {
+        data.add(item)
+        notifyItemRangeInserted(data.size - 1, 1)
+    }
+
+    open fun addFirstData(item: B) {
+        data.add(0, item)
+        notifyItemRangeInserted(0, 1)
+    }
+
+    open fun addData(postion: Int, item: B) {
+        data.add(postion, item)
+        notifyItemRangeInserted(postion, 1)
+    }
+
+    open fun removeFirstData() {
+        data.removeAt(0)
+        notifyItemRangeRemoved(0, 1)
+    }
+
+    open fun removeLastData() {
+        data.removeAt(data.size - 1)
+        notifyItemRangeRemoved(data.size - 1, 1)
+    }
+
+    open fun removeData(postion: Int) {
+        data.removeAt(postion)
+        notifyItemRangeRemoved(postion, 1)
+    }
+
+    open fun changedData(postion: Int, item: B) {
+        data[postion] = item
+        this.notifyItemRangeChanged(postion, 1)
     }
 
     /**
@@ -210,12 +211,30 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter<*>
         this.footer = footer
     }
 
-    fun removeItem(b: B) {
-        this.data.remove(b)
-        this.notifyDataSetChanged()
-    }
-
     interface OnItemClickListener<M> {
         fun onItemClick(view: View, position: Int, item: M)
+    }
+
+    class TwoColumnsDecoration(spaces: Int, span: Int) : RecyclerView.ItemDecoration() {
+        private var spaces = spaces
+        private var span = span
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            var temp = parent.getChildAdapterPosition(view)
+            if (span == Constants.SPAN_COUNT_ONE)
+                return
+            if (span == Constants.SPAN_COUNT_TWO)
+                if (temp % 2 == 0) {
+                    outRect.right = spaces / 2
+                    outRect.bottom = spaces
+                } else {
+                    outRect.left = spaces / 2
+                    outRect.bottom = spaces
+                }
+        }
     }
 }

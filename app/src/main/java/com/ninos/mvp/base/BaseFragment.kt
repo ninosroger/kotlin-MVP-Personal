@@ -16,11 +16,14 @@ import com.google.android.material.snackbar.Snackbar
  * Created by ninos on 2019/1/8.
  */
 abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
-
     lateinit var presenter: P
     private var dialog: AlertDialog? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(provideLayoutId(), container, false)
         presenter = createPresenter()
         presenter.attachView(this)
@@ -30,7 +33,7 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
     }
 
     /**
-     * 获取布局文件d
+     * 获取布局文件
      */
     protected abstract fun provideLayoutId(): Int
 
@@ -53,27 +56,21 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
     /**
      * 显示Toast
      */
-    override fun showToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
+    override fun showToast(text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 
-    override fun showSnackbar(text: String, view: View) {
+    override fun showSnackbar(text: String, view: View) =
         Snackbar.make(view, text, Snackbar.LENGTH_LONG).show()
-    }
 
     /**
      * 启动Actviity
      */
-    override fun startActivity(c: Class<*>) {
-        startActivity(Intent(context, c))
-    }
+    override fun startActivity(c: Class<*>) = startActivity(Intent(context, c))
 
     /**
      * 启动Actviity
      */
-    override fun startActivityForResult(c: Class<*>, requestCode: Int) {
+    override fun startActivityForResult(c: Class<*>, requestCode: Int) =
         startActivityForResult(Intent(context, c), requestCode)
-    }
 
     /**
      * 获取当前Context
@@ -84,7 +81,8 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
      * 显示输入法界面
      */
     override fun showSoftInput(v: View) {
-        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED)
     }
 
@@ -92,8 +90,12 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
      * 隐藏输入法界面
      */
     override fun hideSoftMethod(v: View) {
-        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(v.windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            v.windowToken,
+            InputMethodManager.RESULT_UNCHANGED_SHOWN
+        )
     }
 
     /**
@@ -113,7 +115,13 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
     /**
      * Dialog提示:带确定button
      */
-    override fun showDialog(title: String, message: String, cancelable: Boolean, btn: String, handler: () -> Unit) {
+    override fun showDialog(
+        title: String,
+        message: String,
+        cancelable: Boolean,
+        btn: String,
+        handler: () -> Unit
+    ) {
         if (dialog != null && dialog!!.isShowing)
             dialog!!.dismiss()
         val builder = AlertDialog.Builder(context)
@@ -152,9 +160,7 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
     /**
      * 是否显示Dialog
      */
-    override fun isShowDialog(): Boolean {
-        return if (dialog == null) false else dialog!!.isShowing
-    }
+    override fun isShowDialog(): Boolean = if (dialog == null) false else dialog!!.isShowing
 
     /**
      * 关闭Dialog
@@ -164,7 +170,5 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
             dialog!!.dismiss()
     }
 
-    override fun finishActivity() {
-        activity!!.finish()
-    }
+    override fun finishActivity() = activity!!.onBackPressed()
 }
