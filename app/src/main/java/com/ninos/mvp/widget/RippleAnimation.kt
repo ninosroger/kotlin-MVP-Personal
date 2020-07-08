@@ -1,4 +1,4 @@
-package com.ninos.mvp.widget
+package com.ninos.kotlin_mvp_androidx.widget
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -13,6 +13,9 @@ import android.view.ViewGroup
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.MotionEvent
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 @SuppressLint("ViewConstructor")
@@ -54,7 +57,7 @@ class RippleAnimation(context: Context, startX: Float, startY: Float, radius: In
             val startY = getAbsoluteY(onClickView) + newHeight
             //起始半径
             //因为我们要避免遮挡按钮
-            val radius = Math.max(newWidth, newHeight)
+            val radius = max(newWidth, newHeight)
             return RippleAnimation(context, startX, startY, radius)
         }
 
@@ -126,7 +129,10 @@ class RippleAnimation(context: Context, startX: Float, startY: Float, radius: In
      * 添加到根视图
      */
     private fun attachToRootView() {
-        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         mRootView!!.addView(this)
     }
 
@@ -150,8 +156,8 @@ class RippleAnimation(context: Context, startX: Float, startY: Float, radius: In
      */
     private fun getBitmapFromView(view: View): Bitmap {
         view.measure(
-            View.MeasureSpec.makeMeasureSpec(view.layoutParams.width, View.MeasureSpec.EXACTLY),
-            View.MeasureSpec.makeMeasureSpec(view.layoutParams.height, View.MeasureSpec.EXACTLY)
+            MeasureSpec.makeMeasureSpec(view.layoutParams.width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(view.layoutParams.height, MeasureSpec.EXACTLY)
         )
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -169,20 +175,29 @@ class RippleAnimation(context: Context, startX: Float, startY: Float, radius: In
         val leftTop = RectF(0f, 0f, mStartX + mStartRadius, mStartY + mStartRadius)
         val rightTop = RectF(leftTop.right, 0f, mRootView!!.right.toFloat(), leftTop.bottom)
         val leftBottom = RectF(0f, leftTop.bottom, leftTop.right, mRootView!!.bottom.toFloat())
-        val rightBottom = RectF(leftBottom.right, leftTop.bottom, mRootView!!.right.toFloat(), leftBottom.bottom)
+        val rightBottom =
+            RectF(leftBottom.right, leftTop.bottom, mRootView!!.right.toFloat(), leftBottom.bottom)
         //分别获取对角线长度
         val leftTopHypotenuse =
-            Math.sqrt(Math.pow(leftTop.width().toDouble(), 2.0) + Math.pow(leftTop.height().toDouble(), 2.0))
+            sqrt(
+                leftTop.width().toDouble().pow(2.0) + leftTop.height().toDouble().pow(2.0)
+            )
         val rightTopHypotenuse =
-            Math.sqrt(Math.pow(rightTop.width().toDouble(), 2.0) + Math.pow(rightTop.height().toDouble(), 2.0))
+            sqrt(
+                rightTop.width().toDouble().pow(2.0) + rightTop.height().toDouble().pow(2.0)
+            )
         val leftBottomHypotenuse =
-            Math.sqrt(Math.pow(leftBottom.width().toDouble(), 2.0) + Math.pow(leftBottom.height().toDouble(), 2.0))
+            sqrt(
+                leftBottom.width().toDouble().pow(2.0) + leftBottom.height().toDouble().pow(2.0)
+            )
         val rightBottomHypotenuse =
-            Math.sqrt(Math.pow(rightBottom.width().toDouble(), 2.0) + Math.pow(rightBottom.height().toDouble(), 2.0))
+            sqrt(
+                rightBottom.width().toDouble().pow(2.0) + rightBottom.height().toDouble().pow(2.0)
+            )
         //取最大值
-        mMaxRadius = Math.max(
-            Math.max(leftTopHypotenuse, rightTopHypotenuse),
-            Math.max(leftBottomHypotenuse, rightBottomHypotenuse)
+        mMaxRadius = max(
+            max(leftTopHypotenuse, rightTopHypotenuse),
+            max(leftBottomHypotenuse, rightBottomHypotenuse)
         ).toInt()
     }
 
@@ -204,6 +219,7 @@ class RippleAnimation(context: Context, startX: Float, startY: Float, radius: In
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onDraw(canvas: Canvas) {
         //在新的图层上面绘制
         val layer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
