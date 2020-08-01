@@ -11,16 +11,28 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
+ *
+ * 基础Activity，对重复性代码封装，开放常用方法
+ * 为了方便开发，Activity和Fragment开放的方法名和参数尽量做到保持一致
+ *
+ * @param P 泛型类型，是BasePresenter子类
  */
 abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseView {
     private lateinit var context: Context
     lateinit var presenter: P
-    private var dialog: AlertDialog? = null
+    private lateinit var dialog: AlertDialog
 
+    /**
+     * 基础Activity初始化
+     *
+     * 开放方法的加载顺序
+     * beforeProvideLayoutId -> provideLayoutId -> createPresenter -> initThings -> initListeners
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        beforeProvideLayoutId()
         setContentView(provideLayoutId())
         presenter = createPresenter()
         presenter.attachView(this)
@@ -30,8 +42,15 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
 
     /**
      * 获取布局文件
+     *
+     * @return Int类型资源id，布局文件
      */
     protected abstract fun provideLayoutId(): Int
+
+    /**
+     * 加载布局之前的操作方法
+     */
+    protected fun beforeProvideLayoutId() {}
 
     /**
      * 初始化事件监听者
@@ -68,9 +87,6 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     override fun startActivityForResult(c: Class<*>, requestCode: Int) =
         startActivityForResult(Intent(context, c), requestCode)
 
-    /**
-     * 显示输入法界面
-     */
     override fun showSoftInput(v: View) {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -80,24 +96,19 @@ abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseVie
     /**
      * 隐藏输入法界面
      */
-    override fun hideSoftMethod(v: View) {
+    override fun hideSoftMethod() {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            v.windowToken,
-            InputMethodManager.RESULT_UNCHANGED_SHOWN
-        )
     }
 
     /**
      * Dialog提示
      */
-    override fun showDialog(title: String, message: String, cancelable: Boolean) {
+    override fun showDialog(resId: Int, cancelable: Boolean) {
         if (dialog != null && dialog!!.isShowing)
             dialog!!.dismiss()
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
-        builder.setMessage(message)
         builder.setCancelable(cancelable)
         dialog = builder.create()
         dialog!!.show()

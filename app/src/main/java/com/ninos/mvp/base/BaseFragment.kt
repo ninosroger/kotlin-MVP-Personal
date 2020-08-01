@@ -13,7 +13,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
+ *
+ * 基础Fragment，对重复性代码封装，开放常用方法
+ * 为了方便开发，Activity和Fragment开放的方法名和参数尽量做到保持一致
+ *
+ * @param P 泛型类型，是BasePresenter子类
  */
 abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
     lateinit var presenter: P
@@ -89,24 +94,18 @@ abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseView {
     /**
      * 隐藏输入法界面
      */
-    override fun hideSoftMethod(v: View) {
+    override fun hideSoftMethod() {
         val inputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            v.windowToken,
-            InputMethodManager.RESULT_UNCHANGED_SHOWN
-        )
     }
 
     /**
      * Dialog提示
      */
-    override fun showDialog(title: String, message: String, cancelable: Boolean) {
+    override fun showDialog(resId: Int, cancelable: Boolean) {
         if (dialog != null && dialog!!.isShowing)
             dialog!!.dismiss()
         val builder = AlertDialog.Builder(context)
-        builder.setTitle(title)
-        builder.setMessage(message)
         builder.setCancelable(cancelable)
         dialog = builder.create()
         dialog!!.show()
