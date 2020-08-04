@@ -5,10 +5,10 @@ import com.ninos.mvp.repository.common.NetConstants
 import com.ninos.mvp.repository.bean.ProcessData
 import com.ninos.mvp.repository.bean.SourceData
 import com.ninos.mvp.utils.ResourcesUtils
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONException
 import java.io.EOFException
 import java.net.ConnectException

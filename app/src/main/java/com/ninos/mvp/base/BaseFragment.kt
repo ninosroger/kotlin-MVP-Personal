@@ -108,7 +108,7 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
     /**
      * 获取当前Context
      */
-    override fun getContext(): Context = activity!!
+    override fun getContext(): Context = requireActivity()
 
     /**
      * 显示软键盘
@@ -126,11 +126,9 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
      */
     override fun hideSoftMethod() {
         var foucusView = contentView
-        if (foucusView != null) {
-            val imm =
-                activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as (InputMethodManager)
-            imm.hideSoftInputFromWindow(foucusView.windowToken, 0)
-        }
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as (InputMethodManager)
+        imm.hideSoftInputFromWindow(foucusView.windowToken, 0)
     }
 
     /**
