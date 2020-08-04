@@ -7,7 +7,7 @@ import com.ninos.mvp.repository.okhttp.OkHttpService
 import com.ninos.mvp.Application
 
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
  */
 object RepositoryComponent {
     /**

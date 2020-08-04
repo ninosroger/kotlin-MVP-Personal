@@ -10,36 +10,63 @@ import com.google.android.material.appbar.AppBarLayout
 import com.ninos.mvp.R
 
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
+ *
+ * 统一Toolbar的Fragment，封装常用Toolbar控件及事件
+ * 带自定义toolbar不要继承此类
  */
-abstract class ToolBarFragment<P : BasePresenter<*>> : BaseFragment<P>() {
+abstract class ToolBarFragment<P : BasePresenter> : BaseFragment<P>() {
+    /**
+     * toolbar控件
+     */
     private lateinit var toolBar: Toolbar
+    /**
+     * appbarLayout控件，滚动动效及toolbar阴影等样式设置
+     */
     private lateinit var appBar: AppBarLayout
+    /**
+     * 返回按钮控件
+     */
     private lateinit var toolBarBack: ImageView
+    /**
+     * 标题控件
+     */
     private lateinit var toolBarTitle: TextView
+    /**
+     * 右边预留文本控件
+     */
     private lateinit var toolBarAction: TextView
+    /**
+     * 是否隐藏,防止重复显示及隐藏参数
+     * 禁止变量名以is开头
+     */
     private var mIsHidden = false
 
-
     /**
-     * @return 标题
+     * 顶部标题文本设置
+     *
+     * @return CharSequence类型文本
      */
     protected abstract fun provideTitle(): CharSequence
 
     /**
-     * 初始化toolbar
+     * 准备初始化toolbar
+     * 子类集成时，一定要super，否则不走Toolbar控件初始化代码
      */
-    override fun initThings(view: View) {
-        initToolBar(view)
+    override fun initThings() {
+        initToolBar()
     }
 
-    private fun initToolBar(v: View) {
-        toolBar = v.findViewById(R.id.toolbar) as Toolbar
+    /**
+     * 初始化toolbar
+     */
+    private fun initToolBar() {
+        toolBar = findViewById(R.id.toolbar)
         (activity as AppCompatActivity).setSupportActionBar(toolBar)
-        toolBarBack = v.findViewById(R.id.toolbar_back)
-        toolBarTitle = v.findViewById(R.id.toolbar_title)
-        toolBarAction = v.findViewById(R.id.toolbar_action)
-        appBar = v.findViewById(R.id.app_bar_layout) as AppBarLayout
+        toolBarBack = findViewById(R.id.toolbar_back)
+        toolBarTitle = findViewById(R.id.toolbar_title)
+        toolBarAction = findViewById(R.id.toolbar_action)
+        appBar = findViewById(R.id.app_bar_layout)
         if (canBack())
             toolBarBack.setOnClickListener { (activity as AppCompatActivity).onBackPressed() }
         else
@@ -52,14 +79,16 @@ abstract class ToolBarFragment<P : BasePresenter<*>> : BaseFragment<P>() {
     }
 
     /**
-     * Toolbar右边按钮的点击事件
+     * Toolbar右边控件的点击事件
      */
     open fun action() {
 
     }
 
     /**
-     * @param alpha 设置标题栏的透明度
+     * 设置标题栏的透明度
+     *
+     * @param alpha 透明数值，float类型，0.0为透明，1.0为不透明
      */
     protected fun setAppBarAlpha(alpha: Float) {
         appBar.alpha = alpha
@@ -67,22 +96,32 @@ abstract class ToolBarFragment<P : BasePresenter<*>> : BaseFragment<P>() {
 
     /**
      * 隐藏和显示Toolbar
+     *
+     * 使用animate动态隐藏显示toolbar
+     *
+     * @param isHidden true为隐藏，false不隐藏
      */
-    protected fun hideOrShowToolbar() {
-        appBar.animate()
-            .translationY((if (mIsHidden) 0 else -appBar.height).toFloat())
-            .setInterpolator(DecelerateInterpolator(2f))
-            .start()
-        mIsHidden = !mIsHidden
+    protected fun hideOrShowToolbar(isHidden: Boolean) {
+        if (mIsHidden != isHidden) {
+            appBar.animate()
+                .translationY((if (mIsHidden) 0 else -appBar.height).toFloat())
+                .setInterpolator(DecelerateInterpolator(2f))
+                .start()
+            mIsHidden = isHidden
+        }
     }
 
     /**
-     * @return 返回按钮是否可以显示
+     * 是否可以返回
+     *
+     * @return true为可返回，false为不可返回
      */
-    open fun canBack(): Boolean = false
+    open fun canBack(): Boolean = true
 
     /**
-     * @return 右边按钮是否显示
+     * toolbar右侧控件是否响应事件
+     *
+     * @return false为不响应，true为响应
      */
     open fun canAction(): Boolean = false
 }

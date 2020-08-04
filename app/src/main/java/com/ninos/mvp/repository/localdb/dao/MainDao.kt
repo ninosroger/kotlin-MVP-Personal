@@ -3,6 +3,9 @@ package com.ninos.mvp.repository.localdb.dao
 import androidx.room.*
 import com.ninos.mvp.repository.localdb.entity.MainEntity
 
+/**
+ * @author Ninos
+ */
 @Dao
 interface MainDao {
     @Insert

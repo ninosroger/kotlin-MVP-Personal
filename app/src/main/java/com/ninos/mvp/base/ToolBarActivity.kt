@@ -1,7 +1,6 @@
 package com.ninos.mvp.base
 
 import android.view.animation.DecelerateInterpolator
-import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,28 +9,56 @@ import com.google.android.material.appbar.AppBarLayout
 import com.ninos.mvp.R
 
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
+ *
+ * 统一Toolbar的Activity，封装常用Toolbar控件及事件
+ * 带自定义toolbar不要继承此类
  */
-abstract class ToolBarActivity<P : BasePresenter<*>> : BaseActivity<P>() {
+abstract class ToolBarActivity<P : BasePresenter> : BaseActivity<P>() {
+    /**
+     * toolbar控件
+     */
     private lateinit var toolBar: Toolbar
+    /**
+     * appbarLayout控件，滚动动效及toolbar阴影等样式设置
+     */
     private lateinit var appBar: AppBarLayout
+    /**
+     * 返回按钮控件
+     */
     private lateinit var toolBarBack: ImageView
+    /**
+     * 标题控件
+     */
     private lateinit var toolBarTitle: TextView
+    /**
+     * 右边预留文本控件
+     */
     private lateinit var toolBarAction: TextView
+    /**
+     * 是否隐藏,防止重复显示及隐藏参数
+     * 禁止变量名以is开头
+     */
     private var mIsHidden = false
 
     /**
-     * @return 标题
+     * 顶部标题文本设置
+     *
+     * @return CharSequence类型文本
      */
     protected abstract fun provideTitle(): CharSequence
 
     /**
-     * 初始化toolbar
+     * 准备初始化toolbar
+     * 子类集成时，一定要super，否则不走Toolbar控件初始化代码
      */
-    override fun initThings(savedInstanceState: Bundle?) {
+    override fun initThings() {
         initToolBar()
     }
 
+    /**
+     * 初始化toolbar
+     */
     private fun initToolBar() {
         toolBar = findViewById(R.id.toolbar)
         setSupportActionBar(toolBar)
@@ -51,14 +78,16 @@ abstract class ToolBarActivity<P : BasePresenter<*>> : BaseActivity<P>() {
     }
 
     /**
-     * Toolbar右边按钮的点击事件
+     * Toolbar右边控件的点击事件
      */
     open fun action() {
 
     }
 
     /**
-     * @param alpha 设置标题栏的透明度
+     * 设置标题栏的透明度
+     *
+     * @param alpha 透明数值，float类型，0.0为透明，1.0为不透明
      */
     protected fun setAppBarAlpha(alpha: Float) {
         appBar.alpha = alpha
@@ -66,6 +95,10 @@ abstract class ToolBarActivity<P : BasePresenter<*>> : BaseActivity<P>() {
 
     /**
      * 隐藏和显示Toolbar
+     *
+     * 使用animate动态隐藏显示toolbar
+     *
+     * @param isHidden true为隐藏，false不隐藏
      */
     protected fun hideOrShowToolbar(isHidden: Boolean) {
         if (mIsHidden != isHidden) {
@@ -78,12 +111,16 @@ abstract class ToolBarActivity<P : BasePresenter<*>> : BaseActivity<P>() {
     }
 
     /**
-     * @return 返回按钮是否可以显示
+     * 是否可以返回
+     *
+     * @return true为可返回，false为不可返回
      */
     open fun canBack(): Boolean = true
 
     /**
-     * @return 右边按钮是否显示
+     * toolbar右侧控件是否响应事件
+     *
+     * @return false为不响应，true为响应
      */
     open fun canAction(): Boolean = false
 }

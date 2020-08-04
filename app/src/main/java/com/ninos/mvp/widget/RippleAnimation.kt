@@ -1,4 +1,4 @@
-package com.ninos.kotlin_mvp_androidx.widget
+package com.ninos.mvp.widget
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

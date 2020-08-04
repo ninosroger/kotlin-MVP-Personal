@@ -2,6 +2,9 @@ package com.ninos.mvp.repository.bean
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * @author Ninos
+ */
 data class SourceData<T>(
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,

@@ -10,9 +10,10 @@ import com.ninos.mvp.base.BaseAdapter
 import com.ninos.mvp.presenter.MainPresenter
 
 /**
- * Created by Administrator on 2018/3/31.
+ * @author Ninos
  */
-class MainAdapter(context: Context) : BaseAdapter<MainAdapter.VHolder, String, MainPresenter>(context) {
+class MainAdapter(context: Context) :
+    BaseAdapter<MainAdapter.VHolder, String, MainPresenter>(context) {
     override fun provideItemLayoutId() = R.layout.adapter_main
 
     override fun createVH(parent: ViewGroup, viewType: Int, view: View): VHolder = VHolder(view)

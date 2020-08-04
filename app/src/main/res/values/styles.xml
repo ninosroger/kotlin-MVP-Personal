@@ -12,4 +12,20 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <!-- DrawableTextView属性 -->
+    <declare-styleable name="DrawableTextView">
+        <!-- 图片在文本左边显示 -->
+        <attr name="drawableStart" format="reference" />
+        <!-- 图片在文本下方显示 -->
+        <attr name="drawableBottom" format="reference" />
+        <!-- 图片在文本右边显示 -->
+        <attr name="drawableEnd" format="reference" />
+        <!-- 图片在文本顶部显示 -->
+        <attr name="drawableTop" format="reference" />
+        <!-- 图片宽度设置 -->
+        <attr name="drawableWidth" format="dimension" />
+        <!-- 图片高度设置 -->
+        <attr name="drawableHeight" format="dimension" />
+    </declare-styleable>
+
 </resources>

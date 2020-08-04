@@ -1,9 +1,22 @@
 package com.ninos.mvp.common
 
+/**
+ * @author Ninos
+ *
+ * 常量类
+ */
 object Constants {
-    //数据加载状态常量
+    /**
+     * header type值0
+     */
     const val VIEW_TYPE_HEADER = 0
+    /**
+     * footer type值-1
+     */
     const val VIEW_TYPE_FOOTER = -1
+    /**
+     * normal type值1
+     */
     const val VIEW_TYPE_NORMAL = 1
 
     //行列

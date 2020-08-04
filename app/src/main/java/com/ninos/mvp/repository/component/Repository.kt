@@ -1,7 +1,7 @@
 package com.ninos.mvp.repository.component
 
 import com.ninos.mvp.R
-import com.ninos.mvp.common.NetConstants
+import com.ninos.mvp.repository.common.NetConstants
 import com.ninos.mvp.repository.bean.ProcessData
 import com.ninos.mvp.repository.bean.SourceData
 import com.ninos.mvp.utils.ResourcesUtils
@@ -16,7 +16,14 @@ import java.net.SocketTimeoutException
 import java.text.ParseException
 
 /**
- * 用于简化请求代码
+ * @author Ninos
+ */
+
+/**
+ * 简化网络请求代码
+ * Observable的拓展方法
+ * flatMap加工数据源
+ * subscribe统一返回
  */
 inline fun <T : Any> Observable<SourceData<T>>.arashi(
     crossinline handle: (ProcessData<T>) -> Unit = {}
@@ -29,9 +36,11 @@ inline fun <T : Any> Observable<SourceData<T>>.arashi(
     .observeOn(AndroidSchedulers.mainThread())
     .subscribe(
         {
-            handle(it) },
+            handle(it)
+        },
         {
-            handle(ProcessData(NetConstants.ERROR_CODE, handlerUnknownError(it).errorMessage, null)) }
+            handle(ProcessData(NetConstants.ERROR_CODE, handlerUnknownError(it).errorMessage, null))
+        }
     )
 
 /**

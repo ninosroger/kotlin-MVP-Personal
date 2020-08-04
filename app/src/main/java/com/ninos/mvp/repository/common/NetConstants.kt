@@ -1,7 +1,12 @@
-package com.ninos.mvp.common
+package com.ninos.mvp.repository.common
 
+/**
+ * @author Ninos
+ *
+ * 网络层常量类
+ */
 object NetConstants {
-    const val BASE_URL = "http://www.taoegoo.com/appex/"
+    const val BASE_URL = ""
 
     //内部使用错误码和错误信息
     const val ERROR_CODE = -1

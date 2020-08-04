@@ -5,6 +5,9 @@ import androidx.room.RoomDatabase
 import com.ninos.mvp.repository.localdb.dao.MainDao
 import com.ninos.mvp.repository.localdb.entity.MainEntity
 
+/**
+ * @author Ninos
+ */
 @Database(
     version = 1, entities = [
         MainEntity::class]

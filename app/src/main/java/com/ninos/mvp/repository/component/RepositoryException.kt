@@ -1,7 +1,8 @@
 package com.ninos.mvp.repository.component
 
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
  */
 data class RepositoryException
-constructor(var errorCode: Int, var errorMessage: String = "RepositoryException") : Exception(errorMessage)
+constructor(var errorCode: Int, var errorMessage: String = "RepositoryException") :
+    Exception(errorMessage)

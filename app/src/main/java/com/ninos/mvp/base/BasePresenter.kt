@@ -1,19 +1,11 @@
 package com.ninos.mvp.base
 
-import com.ninos.mvp.repository.component.RepositoryComponent
-
 /**
- * Created by ninos on 2019/1/8.
+ * @author Ninos
+ *
+ * 基础BasePresenter
+ * 新版本不在绑定BaseView及其子类，降低耦合
+ * 禁止在此类绑定任何跟UI有关事务
+ * 可以用此类进行单元测试
  */
-abstract class BasePresenter<V : BaseView> {
-    protected lateinit var view: V
-    protected lateinit var repository: RepositoryComponent
-
-    /**
-     *初始化Repository
-     */
-    fun attachView(view: BaseView) {
-        this.view = view as V
-        repository = RepositoryComponent
-    }
-}
+abstract class BasePresenter

@@ -20,7 +20,7 @@ interface BaseView {
      *
      * @param text 字符串类型消息文本
      */
-    fun showSnackbar(text: String, view: View)
+    fun showSnackbar(text: String)
 
     /**
      * 简化startActivity方法

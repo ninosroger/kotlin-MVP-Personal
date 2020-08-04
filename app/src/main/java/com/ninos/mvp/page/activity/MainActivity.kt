@@ -5,11 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ninos.mvp.R
 import com.ninos.mvp.base.SwipeRefreshActivity
-import com.ninos.mvp.contract.MainContract
 import com.ninos.mvp.page.adapter.MainAdapter
 import com.ninos.mvp.presenter.MainPresenter
 
-class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(), MainContract.View {
+/**
+ * @author Ninos
+ */
+class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>() {
     override fun provideAdapter(): MainAdapter = MainAdapter(this)
 
     override fun provideLayoutManager(): RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -23,7 +25,7 @@ class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(),
             temp.add(it.appLog)
         }
         bindData(temp)
-        showSnackbar("", view)
+        showSnackbar("")
     }
 
     override fun provideTitle(): CharSequence = "MVP for AndroidX"
