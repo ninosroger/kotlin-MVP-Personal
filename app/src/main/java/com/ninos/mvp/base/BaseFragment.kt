@@ -226,7 +226,7 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
     /**
      * 结束Activity方法
      */
-    override fun finishActivity() = activity!!.onBackPressed()
+    override fun finishActivity() = requireActivity().onBackPressed()
 
     fun <T : View> findViewById(@IdRes id: Int): T = contentView.findViewById<T>(id)
 }
