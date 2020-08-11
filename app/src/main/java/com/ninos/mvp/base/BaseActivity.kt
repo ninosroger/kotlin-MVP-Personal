@@ -106,10 +106,10 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      *
      * @param view 显示软键盘后需要获取焦点的view
      */
-    override fun showSoftInput(v: View) {
+    override fun showSoftInput(view: View) {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED)
+        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED)
     }
 
     /**
