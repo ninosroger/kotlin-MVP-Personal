@@ -34,7 +34,11 @@ abstract class ToolBarActivity<P : BasePresenter> : BaseActivity<P>() {
     /**
      * 右边预留文本控件
      */
-    private lateinit var toolBarAction: TextView
+    private lateinit var toolBarActionTv: TextView
+    /**
+     * 右边预留图片控件
+     */
+    private lateinit var toolBarActionIv: ImageView
     /**
      * 是否隐藏,防止重复显示及隐藏参数
      * 禁止变量名以is开头
@@ -64,23 +68,35 @@ abstract class ToolBarActivity<P : BasePresenter> : BaseActivity<P>() {
         setSupportActionBar(toolBar)
         toolBarBack = findViewById(R.id.toolbar_back)
         toolBarTitle = findViewById(R.id.toolbar_title)
-        toolBarAction = findViewById(R.id.toolbar_action)
+        toolBarActionTv = findViewById(R.id.toolbar_action_tv)
+        toolBarActionIv = findViewById(R.id.toolbar_action_iv)
         appBar = findViewById(R.id.app_bar_layout)
         if (canBack())
             toolBarBack.setOnClickListener { onBackPressed() }
         else
             toolBarBack.visibility = View.GONE
-        if (canAction())
-            toolBarAction.setOnClickListener { action() }
+        if (canTvAction())
+            toolBarActionTv.setOnClickListener { tvAction() }
         else
-            toolBarAction.visibility = View.GONE
+            toolBarActionTv.visibility = View.GONE
+        if (canIvAction())
+            toolBarActionIv.setOnClickListener { ivAction() }
+        else
+            toolBarActionIv.visibility = View.GONE
         toolBarTitle.text = provideTitle()
     }
 
     /**
-     * Toolbar右边控件的点击事件
+     * Toolbar右边文本控件的点击事件
      */
-    open fun action() {
+    open fun tvAction() {
+
+    }
+
+    /**
+     * Toolbar右边图片控件的点击事件
+     */
+    open fun ivAction() {
 
     }
 
@@ -118,9 +134,16 @@ abstract class ToolBarActivity<P : BasePresenter> : BaseActivity<P>() {
     open fun canBack(): Boolean = true
 
     /**
-     * toolbar右侧控件是否响应事件
+     * toolbar右侧文本控件是否响应事件
      *
      * @return false为不响应，true为响应
      */
-    open fun canAction(): Boolean = false
+    open fun canTvAction(): Boolean = false
+
+    /**
+     * toolbar右侧图片控件是否响应事件
+     *
+     * @return false为不响应，true为响应
+     */
+    open fun canIvAction(): Boolean = false
 }
