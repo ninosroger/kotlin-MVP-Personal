@@ -21,13 +21,11 @@ class DrawableTextView : AppCompatTextView {
     private var drawableStart: Drawable? = null
     private var drawableBottom: Drawable? = null
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
