@@ -20,26 +20,32 @@ abstract class ToolBarFragment<P : BasePresenter> : BaseFragment<P>() {
      * toolbar控件
      */
     private lateinit var toolBar: Toolbar
+
     /**
      * appbarLayout控件，滚动动效及toolbar阴影等样式设置
      */
     private lateinit var appBar: AppBarLayout
+
     /**
      * 返回按钮控件
      */
     private lateinit var toolBarBack: ImageView
+
     /**
      * 标题控件
      */
     private lateinit var toolBarTitle: TextView
+
     /**
      * 右边预留文本控件
      */
     private lateinit var toolBarActionTv: TextView
+
     /**
      * 右边预留图片控件
      */
     private lateinit var toolBarActionIv: ImageView
+
     /**
      * 是否隐藏,防止重复显示及隐藏参数
      * 禁止变量名以is开头
@@ -125,6 +131,15 @@ abstract class ToolBarFragment<P : BasePresenter> : BaseFragment<P>() {
                 .start()
             mIsHidden = isHidden
         }
+    }
+
+    /**
+     * 动态更改title
+     *
+     * @param title title文本
+     */
+    protected fun setTitleName(title: CharSequence) {
+        toolBarTitle.text = title
     }
 
     /**

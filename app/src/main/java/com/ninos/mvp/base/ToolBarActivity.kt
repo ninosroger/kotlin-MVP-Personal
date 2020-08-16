@@ -127,6 +127,16 @@ abstract class ToolBarActivity<P : BasePresenter> : BaseActivity<P>() {
     }
 
     /**
+     * 动态更改title
+     *
+     * @param title title文本
+     */
+    protected fun setTitleName(title: CharSequence) {
+        toolBarTitle.text = title
+    }
+
+
+    /**
      * 是否可以返回
      *
      * @return true为可返回，false为不可返回
