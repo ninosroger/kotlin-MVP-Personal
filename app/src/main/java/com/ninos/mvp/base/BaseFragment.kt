@@ -79,14 +79,14 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
      *
      * @param text 字符串类型消息文本
      */
-    override fun showToast(text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    override fun showToast(text: CharSequence) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 
     /**
      * 简化Snackbar show方法
      *
      * @param text 字符串类型消息文本
      */
-    override fun showSnackbar(text: String) =
+    override fun showSnackbar(text: CharSequence) =
         Snackbar.make(contentView, text, Snackbar.LENGTH_LONG).show()
 
     /**

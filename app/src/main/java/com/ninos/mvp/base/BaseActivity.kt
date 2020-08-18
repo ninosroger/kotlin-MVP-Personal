@@ -74,14 +74,14 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      *
      * @param text 字符串类型消息文本
      */
-    override fun showToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    override fun showToast(text: CharSequence) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
     /**
      * 简化Snackbar show方法
      *
      * @param text 字符串类型消息文本
      */
-    override fun showSnackbar(text: String) =
+    override fun showSnackbar(text: CharSequence) =
         Snackbar.make(view, text, Snackbar.LENGTH_LONG).show()
 
     /**

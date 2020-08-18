@@ -13,14 +13,14 @@ interface BaseView {
      *
      * @param text 字符串类型消息文本
      */
-    fun showToast(text: String)
+    fun showToast(text: CharSequence)
 
     /**
      * 简化Snackbar show方法
      *
      * @param text 字符串类型消息文本
      */
-    fun showSnackbar(text: String)
+    fun showSnackbar(text: CharSequence)
 
     /**
      * 简化startActivity方法
