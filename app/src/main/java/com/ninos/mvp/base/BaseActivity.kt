@@ -27,7 +27,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      * 基础Activity初始化
      *
      * 开放方法的加载顺序
-     * beforeProvideLayoutId -> provideLayoutId -> createPresenter -> initThings -> initListeners
+     * beforeProvideLayoutId -> provideLayoutId -> createPresenter -> initThings -> initListeners -> initData
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
         presenter = createPresenter()
         initThings()
         initListeners()
+        initData()
     }
 
     /**
@@ -50,7 +51,12 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
     /**
      * 加载布局之前的操作方法
      */
-    protected fun beforeProvideLayoutId() {}
+    open fun beforeProvideLayoutId() {}
+
+    /**
+     * 初始化走完之后需要设置的数据
+     */
+    open fun initData() {}
 
     /**
      * 设置事件监听
@@ -65,7 +71,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
     /**
      * 绑定Presenter
      *
-     * @param P 返回Presenter对象
+     * @return P 返回Presenter对象
      */
     abstract fun createPresenter(): P
 

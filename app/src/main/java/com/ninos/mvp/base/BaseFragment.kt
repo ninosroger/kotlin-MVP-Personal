@@ -30,7 +30,7 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
      * 基础Activity初始化
      *
      * 开放方法的加载顺序
-     * beforeProvideLayoutId -> provideLayoutId -> createPresenter -> initThings -> initListeners
+     * beforeProvideLayoutId -> provideLayoutId -> createPresenter -> initThings -> initListeners -> initData
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +42,19 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
         presenter = createPresenter()
         initThings()
         initListeners()
+        initData()
         return contentView
     }
 
     /**
      * 加载布局之前的操作方法
      */
-    protected fun beforeProvideLayoutId() {}
+    open fun beforeProvideLayoutId() {}
+
+    /**
+     * 初始化走完之后需要设置的数据
+     */
+    open fun initData() {}
 
     /**
      * 获取布局文件
@@ -70,7 +76,7 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
     /**
      * 绑定Presenter
      *
-     * @param P 返回Presenter对象
+     * @return P 返回Presenter对象
      */
     abstract fun createPresenter(): P
 

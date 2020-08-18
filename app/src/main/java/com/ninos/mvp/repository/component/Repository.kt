@@ -2,8 +2,8 @@ package com.ninos.mvp.repository.component
 
 import com.ninos.mvp.R
 import com.ninos.mvp.repository.common.NetConstants
-import com.ninos.mvp.repository.bean.ProcessData
-import com.ninos.mvp.repository.bean.SourceData
+import com.ninos.mvp.repository.entity.ProcessData
+import com.ninos.mvp.repository.entity.SourceData
 import com.ninos.mvp.utils.ResourcesUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
