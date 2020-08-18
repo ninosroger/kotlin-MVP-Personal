@@ -1,4 +1,4 @@
-package com.ninos.mvp.repository.bean
+package com.ninos.mvp.repository.entity
 
 /**
  * @author Ninos

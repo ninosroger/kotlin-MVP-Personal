@@ -76,7 +76,7 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
     /**
      * 绑定Presenter
      *
-     * @param P 返回Presenter对象
+     * @return P 返回Presenter对象
      */
     abstract fun createPresenter(): P
 

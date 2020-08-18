@@ -1,6 +1,6 @@
 package com.ninos.mvp.repository.api
 
-import com.ninos.mvp.repository.bean.SourceData
+import com.ninos.mvp.repository.entity.SourceData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
