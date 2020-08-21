@@ -211,7 +211,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      *
      * @return 布尔类型，true为显示，false为未显示
      */
-    override fun isShowDialog(): Boolean = if (::dialog.isInitialized) false else dialog.isShowing
+    override fun isShowDialog(): Boolean = if (::dialog.isInitialized) dialog.isShowing else false
 
     /**
      * 关闭dialog

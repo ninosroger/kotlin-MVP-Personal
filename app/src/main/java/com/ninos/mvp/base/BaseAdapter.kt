@@ -20,16 +20,16 @@ import com.ninos.mvp.common.Constants
  * footer和header都不在adapter内进行控件绑定和绑定数据
  * 只负责footer和header的展示
  */
-abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
+abstract class BaseAdapter<VH : RecyclerView.ViewHolder, E, P : BasePresenter> :
     RecyclerView.Adapter<VH> {
     /**
      * 点击事件对象，可为空
      */
-    var mOnItemClickListener: OnItemClickListener<B>? = null
+    var mOnItemClickListener: OnItemClickListener<E>? = null
     /**
      * 数据列表
      */
-    var data: ArrayList<B> = ArrayList()
+    var data: ArrayList<E> = ArrayList()
     /**
      * 上下文对象
      */
@@ -275,7 +275,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
      *
      * @param listener OnItemClickListener对象，具体看OnItemClickListener的注释
      */
-    fun setOnItemClickListener(listener: OnItemClickListener<B>) {
+    fun setOnItemClickListener(listener: OnItemClickListener<E>) {
         this.mOnItemClickListener = listener
     }
 
@@ -287,7 +287,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
      *
      * @param datas 数据列表
      */
-    fun addDatas(datas: List<B>) {
+    fun addDatas(datas: List<E>) {
         data.clear()
         data.addAll(datas)
         notifyDataSetChanged()
@@ -301,7 +301,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
      *
      * @param data 数据列表
      */
-    fun addMore(datas: ArrayList<B>) {
+    fun addMore(datas: ArrayList<E>) {
         this.data.addAll(datas)
         this.notifyItemRangeChanged(this.data.size, datas.size)
     }
@@ -316,7 +316,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
      *
      * @param item 数据item
      */
-    fun addLastData(item: B) {
+    fun addLastData(item: E) {
         data.add(item)
         notifyItemRangeInserted(data.size - 1, 1)
     }
@@ -326,7 +326,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
      *
      * @param item 数据item
      */
-    fun addFirstData(item: B) {
+    fun addFirstData(item: E) {
         data.add(0, item)
         notifyItemRangeInserted(0, 1)
     }
@@ -337,7 +337,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
      * @param postion 列表下标
      * @param item 数据item
      */
-    fun addData(postion: Int, item: B) {
+    fun addData(postion: Int, item: E) {
         data.add(postion, item)
         notifyItemRangeInserted(postion, 1)
     }
@@ -369,7 +369,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
     /**
      * 改变列表存在的item和数据的内容
      */
-    fun changedData(postion: Int, item: B) {
+    fun changedData(postion: Int, item: E) {
         data[postion] = item
         this.notifyItemRangeChanged(postion, 1)
     }
@@ -386,9 +386,9 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
     /**
      * item点击事件
      *
-     * @param B POJO实体类，用于传递item数据
+     * @param E POJO实体类，用于传递item数据
      */
-    interface OnItemClickListener<B> {
+    interface OnItemClickListener<E> {
         /**
          * item点击事件方法
          *
@@ -396,7 +396,7 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder, B, P : BasePresenter> :
          * @param position 点击的item的postion，注意此position并非data数据列表的position
          * @param item 实体类数据对象，用于数据传递
          */
-        fun onItemClick(view: View, position: Int, item: B)
+        fun onItemClick(view: View, position: Int, item: E)
     }
 
     /**

@@ -15,12 +15,12 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
  * 框架只引入基础下拉上拉刷新控件，需要引入其他样式，前往github复制依赖引入
  *
  * @param P Presenter类
- * @param B POJO实体类
+ * @param E POJO实体类
  * @param A Adapter类
  */
-abstract class SwipeRefreshActivity<P : PaginationPresenter, A : BaseAdapter<*, B, P>, B> :
+abstract class SwipeRefreshActivity<P : PaginationPresenter, A : BaseAdapter<*, E, P>, E> :
     ToolBarActivity<P>(),
-    BaseAdapter.OnItemClickListener<B>, LoadMoreView {
+    BaseAdapter.OnItemClickListener<E>, LoadMoreView {
     /**
      * 列表控件
      */
@@ -119,7 +119,7 @@ abstract class SwipeRefreshActivity<P : PaginationPresenter, A : BaseAdapter<*, 
      * 绑定列表数据
      * @param data 接口返回分页数据
      */
-    fun bindData(data: ArrayList<B>) =
+    fun bindData(data: ArrayList<E>) =
         /**
          * 当为第一页时，不考虑是否存在旧数据，填充数据列表
          * 不为第一页时，数据列表添加新数据
