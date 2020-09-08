@@ -1,6 +1,7 @@
 package com.ninos.mvp.base
 
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 
 /**
  * @author Ninos
@@ -66,14 +67,14 @@ interface BaseView {
      * @param message dialog提示内容文本
      * @param cancelable 点击dialog以外是否可以关闭dialog
      * @param btn 单按钮文本
-     * @param handler 按钮的点击回调
+     * @param handler 按钮的点击回调，回传dialog对象
      */
     fun showDialog(
         title: String,
         message: String,
         cancelable: Boolean,
         btn: String,
-        handler: () -> Unit
+        handler: (dialog: AlertDialog) -> Unit
     )
 
     /**
@@ -84,7 +85,7 @@ interface BaseView {
      * @param cancelable 点击dialog以外是否可以关闭dialog
      * @param confirmStr confirm文本，例：确认  同意  好  前往  是
      * @param cancelStr cancel标题，例：取消  拒绝  否  关闭
-     * @param confirm confirm的点击回调
+     * @param confirm confirm的点击回调，回传dialog对象
      * @param cancel cancel的点击回调
      */
     fun showDialog(
@@ -93,7 +94,28 @@ interface BaseView {
         cancelable: Boolean,
         confirmStr: String,
         cancelStr: String,
-        confirm: () -> Unit,
+        confirm: (dialog: AlertDialog) -> Unit,
+        cancel: () -> Unit
+    )
+
+    /**
+     * 简化常用dialog方法，具体看参数
+     *
+     * @param title dialog标题
+     * @param contentId dialog布局文件id
+     * @param cancelable 点击dialog以外是否可以关闭dialog
+     * @param confirmStr confirm文本，例：确认  同意  好  前往  是
+     * @param cancelStr cancel标题，例：取消  拒绝  否  关闭
+     * @param confirm confirm的点击回调，回传dialog对象
+     * @param cancel cancel的点击回调
+     */
+    fun showDialog(
+        title: String,
+        contentId: Int,
+        cancelable: Boolean,
+        confirmStr: String,
+        cancelStr: String,
+        confirm: (dialog: AlertDialog) -> Unit,
         cancel: () -> Unit
     )
 

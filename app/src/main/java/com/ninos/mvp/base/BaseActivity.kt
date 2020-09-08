@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.ninos.mvp.R
 
 /**
  * @author Ninos
@@ -139,7 +140,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
     override fun showDialog(resId: Int, cancelable: Boolean) {
         if (isShowDialog())
             dialog.dismiss()
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
         builder.setView(resId)
         builder.setCancelable(cancelable)
         dialog = builder.create()
@@ -154,22 +155,54 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      * @param message dialog提示内容文本
      * @param cancelable 点击dialog以外是否可以关闭dialog
      * @param btn 单按钮文本
-     * @param handler 按钮的点击回调
+     * @param handler 按钮的点击回调，回传dialog对象
      */
     override fun showDialog(
         title: String,
         message: String,
         cancelable: Boolean,
         btn: String,
-        handler: () -> Unit
+        handler: (dialog: AlertDialog) -> Unit
     ) {
         if (isShowDialog())
             dialog.dismiss()
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setCancelable(cancelable)
-        builder.setPositiveButton(btn) { _, _ -> handler() }
+        builder.setPositiveButton(btn) { it, _ -> handler((it as AlertDialog)) }
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    /**
+     * 简化常用dialog方法，具体看参数
+     *
+     * @param title dialog标题
+     * @param contentId dialog布局文件id
+     * @param cancelable 点击dialog以外是否可以关闭dialog
+     * @param confirmStr confirm文本，例：确认  同意  好  前往  是
+     * @param cancelStr cancel标题，例：取消  拒绝  否  关闭
+     * @param confirm confirm的点击回调，回传dialog对象
+     * @param cancel cancel的点击回调
+     */
+    override fun showDialog(
+        title: String,
+        contentId: Int,
+        cancelable: Boolean,
+        confirmStr: String,
+        cancelStr: String,
+        confirm: (dialog: AlertDialog) -> Unit,
+        cancel: () -> Unit
+    ) {
+        if (isShowDialog())
+            dialog.dismiss()
+        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        builder.setTitle(title)
+        builder.setView(contentId)
+        builder.setCancelable(cancelable)
+        builder.setPositiveButton(confirmStr) { it, _ -> confirm((it as AlertDialog)) }
+        builder.setNegativeButton(cancelStr) { _, _ -> cancel() }
         dialog = builder.create()
         dialog.show()
     }
@@ -182,7 +215,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      * @param cancelable 点击dialog以外是否可以关闭dialog
      * @param confirmStr confirm文本，例：确认  同意  好  前往  是
      * @param cancelStr cancel标题，例：取消  拒绝  否  关闭
-     * @param confirm confirm的点击回调
+     * @param confirm confirm的点击回调，回传dialog对象
      * @param cancel cancel的点击回调
      */
     override fun showDialog(
@@ -191,16 +224,16 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
         cancelable: Boolean,
         confirmStr: String,
         cancelStr: String,
-        confirm: () -> Unit,
+        confirm: (dialog: AlertDialog) -> Unit,
         cancel: () -> Unit
     ) {
         if (isShowDialog())
             dialog.dismiss()
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setCancelable(cancelable)
-        builder.setPositiveButton(confirmStr) { _, _ -> confirm() }
+        builder.setPositiveButton(confirmStr) { it, _ -> confirm((it as AlertDialog)) }
         builder.setNegativeButton(cancelStr) { _, _ -> cancel() }
         dialog = builder.create()
         dialog.show()
