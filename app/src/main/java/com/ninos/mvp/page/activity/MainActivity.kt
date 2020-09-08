@@ -5,13 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ninos.mvp.R
 import com.ninos.mvp.base.SwipeRefreshActivity
+import com.ninos.mvp.contract.MainView
 import com.ninos.mvp.page.adapter.MainAdapter
 import com.ninos.mvp.presenter.MainPresenter
 
 /**
  * @author Ninos
  */
-class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>() {
+class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(), MainView {
     override fun provideAdapter(): MainAdapter = MainAdapter(this)
 
     override fun provideLayoutManager(): RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -34,7 +35,7 @@ class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>() 
 
     override fun initListeners() {}
 
-    override fun createPresenter(): MainPresenter = MainPresenter()
+    override fun createPresenter(): MainPresenter = MainPresenter(this)
 
     override fun pulldownRefresh() {
         super.pulldownRefresh()

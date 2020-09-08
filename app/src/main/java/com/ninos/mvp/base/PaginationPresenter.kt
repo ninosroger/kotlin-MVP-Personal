@@ -5,7 +5,7 @@ package com.ninos.mvp.base
  *
  * 用于列表数据请求的Presenter，是BasePresenter的子类
  */
-abstract class PaginationPresenter : BasePresenter() {
+abstract class PaginationPresenter<V : BaseView>(protected val view: V) : BasePresenter() {
 
     /**
      * 获取分页数据，用于分页请求
