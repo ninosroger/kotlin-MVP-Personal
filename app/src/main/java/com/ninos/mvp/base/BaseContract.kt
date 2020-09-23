@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
  *
  * Activity和Fragment常用方法接口，统一方法名，便于开发
  */
-interface BaseView {
+interface BaseContract {
     /**
      * 简化Toast show方法
      *

@@ -22,7 +22,7 @@ import com.ninos.mvp.R
  *
  * @param P 泛型类型，是BasePresenter子类
  */
-abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
+abstract class BaseFragment<P : BasePresenter<*>> : Fragment(), BaseContract {
     lateinit var presenter: P
     private lateinit var dialog: AlertDialog
     lateinit var contentView: View
@@ -41,6 +41,7 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
         beforeProvideLayoutId()
         contentView = inflater.inflate(provideLayoutId(), container, false)
         presenter = createPresenter()
+        presenter.attachView(this)
         initThings()
         initListeners()
         initData()
@@ -86,7 +87,8 @@ abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
      *
      * @param text 字符串类型消息文本
      */
-    override fun showToast(text: CharSequence) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    override fun showToast(text: CharSequence) =
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 
     /**
      * 简化Snackbar show方法

@@ -18,29 +18,34 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
  * @param E POJO实体类
  * @param A Adapter类
  */
-abstract class SwipeRefreshToolBarFragment<P : PaginationPresenter, A : BaseAdapter<*, E, P>, E> :
+abstract class SwipeRefreshToolBarFragment<P : PaginationPresenter<*>, A : BaseAdapter<*, E, P>, E> :
     ToolBarFragment<P>(),
-    BaseAdapter.OnItemClickListener<E>, LoadMoreView {
+    BaseAdapter.OnItemClickListener<E>, LoadMoreContract {
     /**
      * 列表控件
      */
     lateinit var recyclerView: RecyclerView
+
     /**
      * 刷新控件
      */
     lateinit var refreshLayout: RefreshLayout
+
     /**
      * Adapter对象
      */
     lateinit var adapter: A
+
     /**
      * 列表布局配置对象
      */
     lateinit var layoutManager: RecyclerView.LayoutManager
+
     /**
      * 分页页数
      */
     var page = 1
+
     /**
      * 分页数据数
      */

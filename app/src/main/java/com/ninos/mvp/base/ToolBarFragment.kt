@@ -15,7 +15,7 @@ import com.ninos.mvp.R
  * 统一Toolbar的Fragment，封装常用Toolbar控件及事件
  * 带自定义toolbar不要继承此类
  */
-abstract class ToolBarFragment<P : BasePresenter> : BaseFragment<P>() {
+abstract class ToolBarFragment<P : BasePresenter<*>> : BaseFragment<P>() {
     /**
      * toolbar控件
      */

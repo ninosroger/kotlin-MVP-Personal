@@ -9,6 +9,9 @@ import retrofit2.http.*
  */
 interface ApiService {
     @FormUrlEncoded
-    @POST("controller.php?script_name=user&act=act_login&remember=1")
-    fun login(@Field("token") token: String, @Field("username") username: String, @Field("password") password: String): Observable<SourceData<String>>
+    @POST("")
+    fun getHotGoodsList(
+        @Field("page") page: Int,
+        @Field("count") count: Int
+    ): Observable<SourceData<String>>
 }

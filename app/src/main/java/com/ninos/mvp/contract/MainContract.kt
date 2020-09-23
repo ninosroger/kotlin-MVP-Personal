@@ -1,5 +1,5 @@
 package com.ninos.mvp.contract
 
-import com.ninos.mvp.base.BaseView
+import com.ninos.mvp.base.LoadMoreContract
 
-interface MainView : BaseView
+interface MainContract : LoadMoreContract

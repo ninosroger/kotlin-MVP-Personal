@@ -20,28 +20,33 @@ import com.ninos.mvp.common.Constants
  * footer和header都不在adapter内进行控件绑定和绑定数据
  * 只负责footer和header的展示
  */
-abstract class BaseAdapter<VH : RecyclerView.ViewHolder, E, P : BasePresenter> :
+abstract class BaseAdapter<VH : RecyclerView.ViewHolder, E, P : BasePresenter<*>> :
     RecyclerView.Adapter<VH> {
     /**
      * 点击事件对象，可为空
      */
     var mOnItemClickListener: OnItemClickListener<E>? = null
+
     /**
      * 数据列表
      */
     var data: ArrayList<E> = ArrayList()
+
     /**
      * 上下文对象
      */
     var context: Context
+
     /**
      * presenter对象
      */
     lateinit var presenter: P
+
     /**
      * 头布局对象，可为空
      */
     private var header: View? = null
+
     /**
      * 脚布局对象，可为空
      */

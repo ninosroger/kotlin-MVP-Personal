@@ -7,15 +7,15 @@ package com.ninos.mvp.common
  */
 object Constants {
     /**
-     * header type值0
+     * header type值 0
      */
     const val VIEW_TYPE_HEADER = 0
     /**
-     * footer type值-1
+     * footer type值 -1
      */
     const val VIEW_TYPE_FOOTER = -1
     /**
-     * normal type值1
+     * normal type值 1
      */
     const val VIEW_TYPE_NORMAL = 1
 

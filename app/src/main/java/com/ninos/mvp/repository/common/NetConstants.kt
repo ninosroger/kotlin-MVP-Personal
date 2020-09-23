@@ -9,6 +9,7 @@ object NetConstants {
     const val BASE_URL = ""
 
     //内部使用错误码和错误信息
+    const val OK_CODE = 0
     const val ERROR_CODE = -1
     const val ERROR_CODE_UNKNOWN = 1000
     const val ERROR_CODE_REMOTE = 1002

@@ -1,20 +1,12 @@
 package com.ninos.mvp.presenter
 
 import com.ninos.mvp.base.PaginationPresenter
-import com.ninos.mvp.contract.MainView
-import com.ninos.mvp.repository.component.RepositoryComponent
-import com.ninos.mvp.repository.localdb.entity.MainEntity
+import com.ninos.mvp.contract.MainContract
 
 /**
  * @author Ninos
  */
-class MainPresenter(view: MainView) : PaginationPresenter<MainView>(view) {
+class MainPresenter : PaginationPresenter<MainContract>() {
     override fun getData(page: Int, count: Int) {
-        RepositoryComponent.localDB.mainDao()
-            .insertMain(MainEntity("this is a test message data $page"))
-    }
-
-    fun getMainList(): List<MainEntity> {
-        return RepositoryComponent.localDB.mainDao().getMainList()
     }
 }

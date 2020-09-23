@@ -5,7 +5,7 @@ package com.ninos.mvp.base
  *
  * 用于列表数据请求的Presenter，是BasePresenter的子类
  */
-abstract class PaginationPresenter<V : BaseView>(protected val view: V) : BasePresenter() {
+abstract class PaginationPresenter<V : LoadMoreContract> : BasePresenter<V>() {
 
     /**
      * 获取分页数据，用于分页请求
@@ -28,5 +28,10 @@ abstract class PaginationPresenter<V : BaseView>(protected val view: V) : BasePr
      *
      * @return boolean类型，当true时加载下一页，为false时加载完毕
      */
-    fun hasMoreData(size: Int, count: Int): Boolean = size == count
+    fun hasMoreData(size: Int, count: Int) {
+        if (size == count)
+            contract.hasMore()
+        else
+            contract.noMore()
+    }
 }

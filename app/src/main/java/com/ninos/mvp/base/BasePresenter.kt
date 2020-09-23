@@ -8,4 +8,11 @@ package com.ninos.mvp.base
  * 禁止在此类绑定任何跟UI有关事务
  * 可以用此类进行单元测试
  */
-abstract class BasePresenter
+abstract class BasePresenter<V : BaseContract> {
+    protected lateinit var contract: V
+
+    @Suppress("UNCHECKED_CAST")
+    fun attachView(contract: BaseContract) {
+        this.contract = contract as V
+    }
+}

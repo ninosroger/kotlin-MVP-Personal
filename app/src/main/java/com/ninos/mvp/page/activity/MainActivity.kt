@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ninos.mvp.R
 import com.ninos.mvp.base.SwipeRefreshActivity
-import com.ninos.mvp.contract.MainView
+import com.ninos.mvp.contract.MainContract
 import com.ninos.mvp.page.adapter.MainAdapter
 import com.ninos.mvp.presenter.MainPresenter
 
 /**
  * @author Ninos
  */
-class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(), MainView {
+class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(), MainContract {
     override fun provideAdapter(): MainAdapter = MainAdapter(this)
 
     override fun provideLayoutManager(): RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -20,13 +20,7 @@ class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(),
     override fun setAutoLoadMore(): Boolean = false
 
     override fun onItemClick(view: View, position: Int, item: String) {
-        val list = presenter.getMainList()
-        val temp = ArrayList<String>()
-        list.forEach {
-            temp.add(it.appLog)
-        }
-        bindData(temp)
-        showSnackbar("")
+        showSnackbar(item)
     }
 
     override fun provideTitle(): CharSequence = "MVP for AndroidX"
@@ -35,20 +29,5 @@ class MainActivity : SwipeRefreshActivity<MainPresenter, MainAdapter, String>(),
 
     override fun initListeners() {}
 
-    override fun createPresenter(): MainPresenter = MainPresenter(this)
-
-    override fun pulldownRefresh() {
-        super.pulldownRefresh()
-        val list = ArrayList<String>()
-        list.add("Android O")
-        list.add("Android P")
-        list.add("Android E")
-        list.add("Android F")
-        list.add("Android G")
-        list.add("Android I")
-        list.add("Android L")
-        list.add("Android S")
-        bindData(list)
-        refreshLayout.finishRefresh()
-    }
+    override fun createPresenter(): MainPresenter = MainPresenter()
 }

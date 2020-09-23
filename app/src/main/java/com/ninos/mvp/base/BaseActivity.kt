@@ -19,11 +19,12 @@ import com.ninos.mvp.R
  *
  * @param P 泛型类型，是BasePresenter子类
  */
-abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
+abstract class BaseActivity<P : BasePresenter<*>> : AppCompatActivity(), BaseContract {
     private lateinit var context: Context
     lateinit var presenter: P
     private lateinit var dialog: AlertDialog
     lateinit var view: View
+
     /**
      * 基础Activity初始化
      *
@@ -37,6 +38,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
         setContentView(provideLayoutId())
         view = window.decorView.rootView
         presenter = createPresenter()
+        presenter.attachView(this)
         initThings()
         initListeners()
         initData()
@@ -81,7 +83,8 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity(), BaseView {
      *
      * @param text 字符串类型消息文本
      */
-    override fun showToast(text: CharSequence) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    override fun showToast(text: CharSequence) =
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
     /**
      * 简化Snackbar show方法
